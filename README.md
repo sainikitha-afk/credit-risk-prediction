@@ -1,84 +1,99 @@
-# Credit Risk Prediction System
+Credit Risk Prediction System
+📌 Overview
 
-## 📌 Overview
-Credit risk analysis is crucial in the FinTech industry to evaluate the probability of loan default by customers.  
-This project applies both **Machine Learning** and **Deep Learning** models to predict default probability on a Kaggle credit card dataset.  
-We compare multiple models (benchmarking) to identify the most effective approach for risk-aware financial decision-making.  
+Credit risk analysis is a cornerstone of the FinTech industry, used to estimate the probability of customer loan defaults.
+This project applies Machine Learning techniques to predict default probability on a Kaggle credit card dataset, with a special focus on vintage analysis to avoid label leakage.
 
-Inspired by:  
-Chang, V. et al., *Credit Risk Prediction Using Machine Learning and Deep Learning: A Study on Credit Card Customers* (2022).
+We benchmarked traditional models (Logistic Regression, Balanced Random Forest) against advanced boosting methods, and identified CatBoost as the most effective for risk-aware financial decision-making.
 
----
+📊 Dataset
 
-## 📊 Dataset
-- Source: [Kaggle – Credit Risk Vintage Analysis](https://www.kaggle.com/code/rikdifos/eda-vintage-analysis/data)  
-- Contains customer demographics, credit history, and repayment information.  
-- Target variable: Whether the customer **defaulted** or not.  
+Source: Kaggle – Credit Risk Vintage Analysis
 
----
+Files:
 
-## ⚙️ Tech Stack
-- **Python** (pandas, numpy, matplotlib, seaborn)  
-- **Scikit-Learn** (Logistic Regression, Random Forest, etc.)  
-- **XGBoost / LightGBM** (boosting models)  
-- **TensorFlow / Keras** (Artificial Neural Networks)  
-- **Imbalanced-learn** (for class imbalance handling, e.g., SMOTE)  
+application_record.csv — customer demographics (age, income, family, employment)
 
----
+credit_record.csv — monthly repayment status history
 
-## 🧩 Project Workflow
-1. **Exploratory Data Analysis (EDA)**  
-   - Distribution of features  
-   - Class imbalance visualization  
-   - Correlation and multicollinearity checks  
+Target variable: default = 1 if any future record (last 6 months) shows severe delinquency (STATUS ∈ {2,3,4,5}), else 0.
 
-2. **Data Preprocessing**  
-   - Missing value imputation  
-   - Feature scaling & encoding  
-   - Handling imbalanced classes  
+⚙️ Tech Stack
 
-3. **Modeling & Benchmarking**  
-   - Logistic Regression (baseline)  
-   - Random Forest  
-   - XGBoost / LightGBM  
-   - Artificial Neural Network (ANN, 2–3 dense layers)  
+Python (pandas, numpy, matplotlib, seaborn)
 
-4. **Evaluation Metrics**  
-   - Accuracy  
-   - ROC-AUC  
-   - Precision, Recall, F1-score  
-   - Confusion Matrix  
+Scikit-Learn (Logistic Regression, preprocessing, metrics)
 
-5. **Results & Insights**  
-   - Compare ML vs DL performance  
-   - Identify trade-offs (e.g., precision vs recall for default class)  
+Imbalanced-Learn (Balanced Random Forest)
 
----
+CatBoost (gradient boosting on categorical features, final model)
 
-## 🚀 Results (to be updated after implementation)
-- **XGBoost**: Expected to give highest ROC-AUC (~0.85).  
-- **ANN**: May improve recall for minority class (defaults).  
-- Benchmarking results will be uploaded in `/results/metrics.json`.  
+🧩 Project Workflow
 
----
+Exploratory Data Analysis (EDA)
 
-## 📂 Repository Structure
+Distribution plots (income, age, gender)
+
+Class imbalance visualization
+
+Vintage Analysis Labeling
+
+Features built from earlier months (MONTHS_BALANCE ≤ -6)
+
+Default label built from future months (MONTHS_BALANCE > -6)
+
+Feature Engineering
+
+Demographics: AGE_YEARS, YEARS_EMPLOYED, INCOME_PER_MEMBER
+
+Credit history: WORST_STATUS, BAD_RATIO, HIST_LEN, etc.
+
+Binning: age groups, employment length
+
+Modeling & Benchmarking
+
+Logistic Regression (baseline with class weights)
+
+Balanced Random Forest (ensemble for imbalance)
+
+CatBoost with scale_pos_weight (final model)
+
+Evaluation Metrics
+
+ROC-AUC
+
+Precision, Recall, F1-score
+
+Precision–Recall AUC
+
+🚀 Results
+Model	ROC-AUC	PR-AUC	Precision	Recall	F1	Threshold
+Logistic Regression	~0.59	~0.003	0.05	0.01	0.02	~0.95
+Balanced Random Forest	~0.74	~0.09	0.22	0.22	0.22	~0.85
+CatBoost (final)	0.992	0.303	0.35	0.38	0.37	0.977
+
+📂 See results/
+ for:
+
+metrics_summary.csv
+
+catboost_roc.png (ROC curve)
+
+catboost_pr.png (Precision–Recall curve)
+
+📂 Repository Structure
 credit-risk-prediction/
-│── data/ # raw data (not uploaded, Kaggle link provided)
-│── notebooks/ # Jupyter notebooks (EDA, model training)
-│── src/ # Python scripts (preprocessing, training)
-│── results/ # Metrics, plots, saved models
-│── LICENSE # MIT License
-│── README.md # Project documentation
+│── data/            # (not uploaded, see Kaggle link)
+│── notebooks/       # Jupyter notebook with full pipeline
+│── results/         # Metrics, plots
+│── LICENSE          # MIT License
+│── README.md        # Project documentation
 
+📖 References
 
----
+Chang, V., Sivakulasingam, S., Wang, H., Wong, S.T., Ganatra, M.A., Luo, J. (2022).
+Credit Risk Prediction Using Machine Learning and Deep Learning: A Study on Credit Card Customers.
 
-## 📖 References
-- Chang, V., Sivakulasingam, S., Wang, H., Wong, S.T., Ganatra, M.A., Luo, J. (2022).  
-  *Credit Risk Prediction Using Machine Learning and Deep Learning: A Study on Credit Card Customers.*  
-- Kaggle Dataset: [Vintage Credit Risk Analysis](https://www.kaggle.com/code/rikdifos/eda-vintage-analysis/data)
+Kaggle Dataset: Vintage Credit Risk Analysis
 
----
-
-✍️ *Maintained by [Sai Nikitha N S R](https://github.com/sainikitha-afk)*  
+✍️ Maintained by Sai Nikitha N S R
